@@ -34,9 +34,9 @@ steps:
 timeout: '1200s'
 
 serviceAccount: 'projects/airbnb-448411/serviceAccounts/sayliyev.f@gmail.com'
-
+logsBucket: 'gs://airbnb-chicago/temp/'
 # Service account for Cloud Build (optional but recommended)
 options:
   logging: CLOUD_LOGGING_ONLY
   #workerPool: 'projects/airbnb-448411/locations/us-central1/workerPools/<WORKER_POOL_NAME>'
-  logsBucket: 'gs://airbnb-chicago/temp/'
+  
