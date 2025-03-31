@@ -11,9 +11,9 @@ spark = SparkSession.builder \
 project_id = os.environ.get("GOOGLE_CLOUDPROJECT")
 
 secret_ids = {
-    "db_username": "projects/{project_id}/secrets/db-username/versions/latest"
-    "db_password": "projects/{project_id}/secrets/postgres-defense/versions/1"
-    "jdbc": "projects/{project_id}/secrets/jdbc/versions/latest"
+    "db_username": f"projects/{project_id}/secrets/db-username/versions/latest",
+    "db_password": f"projects/{project_id}/secrets/postgres-defense/versions/1",
+    "jdbc": f"projects/{project_id}/secrets/jdbc/versions/latest"
 }
 
 # Database connection details
