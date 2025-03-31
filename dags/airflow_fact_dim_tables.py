@@ -22,7 +22,7 @@ default_args = {
 
 # Define the DAG
 with DAG(
-    "transforming and loading fact and dim tables into BQ",
+    "transforming_loading_fact_and_dim_tables_into_BQ",
     default_args=default_args,
     schedule_interval=None,  # Trigger manually or define a schedule
     catchup=False,

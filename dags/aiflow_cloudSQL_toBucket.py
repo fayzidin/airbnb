@@ -22,7 +22,7 @@ default_args = {
 
 # Define the DAG
 with DAG(
-    "loading tables from SQL instance",
+    "loading_tables_from_SQL_instance",
     default_args=default_args,
     schedule_interval=None,  # Trigger manually or define a schedule
     catchup=False,
