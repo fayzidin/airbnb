@@ -28,7 +28,7 @@ with DAG(
     catchup=False,
 ) as dag:
     
-    submit_pyspark_listings_job = DataprocSubmitJobOperator(
+    submit_CloudSQL_job = DataprocSubmitJobOperator(
         task_id="submit_CloudSQL_job",
         project_id=PROJECT_ID,
         region=REGION,
