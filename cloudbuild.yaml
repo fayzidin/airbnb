@@ -1,15 +1,5 @@
 steps:
-  # Step 1: Lint the DAGs (optional)
-  # - name: 'python:3.11'
-  #   id: 'Lint DAGs'
-  #   entrypoint: 'bash'
-  #   args:
-  #     - '-c'
-  #     - |
-  #       pip install pylint
-  #       pylint dags/
-
-  # Step 2: Upload DAGs to Cloud Storage
+  #Upload DAGs to Cloud Storage
   - name: 'google/cloud-sdk'
     id: 'Upload DAGs'
     args:
@@ -20,17 +10,6 @@ steps:
       - 'dags/'
       - 'gs://us-central1-airflow-9dc9b24d-bucket/dags/'
 
-  # Step 3: Run Tests (optional)
-  # - name: 'python:3.11'
-  #   id: 'Run Tests'
-  #   entrypoint: 'bash'
-  #   args:
-  #     - '-c'
-  #     - |
-  #       pip install pytest
-  #       pytest tests/
-
-# Timeout for the build (optional)
 timeout: '1200s'
 
 serviceAccount: 'projects/airbnb-448411/serviceAccounts/sayliyev.f@gmail.com'
