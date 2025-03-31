@@ -8,7 +8,7 @@ steps:
       - '-r'
       - '-d'
       - 'dags/'
-      - 'gs://us-central1-airflow-9dc9b24d-bucket/dags/'
+      - 'gs://us-central1-airflow-cf62a32c-bucket/dags/'
 
 timeout: '1200s'
 
