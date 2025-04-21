@@ -1,6 +1,23 @@
 from pyspark.sql import SparkSession
-from google.cloud import secretmanager
 import os
+
+try:
+    from google.cloud import secretmanager
+except ImportError:
+    import subprocess
+    import sys
+    print("Installing google-cloud-secret-manager...")
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "google-cloud-secret-manager"])
+    from google.cloud import secretmanager
+
+def get_secret(project_id, secret_id, version="latest"):
+    """Retrieve secret from Secret Manager"""
+    client = secretmanager.SecretManagerServiceClient()
+    name = f"projects/{project_id}/secrets/{secret_id}/versions/{version}"
+    response = client.access_secret_version(name=name) #(request={"name": name})
+    payload = response.payload.data.decode("UTF-8")
+
+    return payload
 
 # Initialize Spark session
 spark = SparkSession.builder \
@@ -8,21 +25,28 @@ spark = SparkSession.builder \
     .config("spark.jars", "gs://airbnb-chicago/jars/postgresql-42.6.2.jar") \
     .getOrCreate()
 
-project_id = os.environ.get("GOOGLE_CLOUDPROJECT")
+#------------------------------------------------
+# secret_ids = {
+#     "db_username": f"projects/{project_id}/secrets/db-username/versions/1",
+#     "db_password": f"projects/{project_id}/secrets/postgres-defense/versions/1",
+#     "jdbc": f"projects/{project_id}/secrets/jdbc/versions/1"
+# }
 
-secret_ids = {
-    "db_username": f"projects/{project_id}/secrets/db-username/versions/latest",
-    "db_password": f"projects/{project_id}/secrets/postgres-defense/versions/1",
-    "jdbc": f"projects/{project_id}/secrets/jdbc/versions/latest"
-}
+# def get_secret(secret_path):
+#     client = secretmanager.SecretManagerServiceClient()
+#     response = client.access_secret_version(name=secret_path)
+#     return response.payload.data.decode("UTF-8")
+#------------------------------------------------
+
 
 # Database connection details
-db_url = get_secret(secret_ids["jdbc"])
-db_user = get_secret(secret_ids["db_username"])
-db_password = get_secret(secret_ids["db_password"])
+project_id = "869904895744" #os.environ.get("GOOGLE_CLOUDPROJECT")
+db_user = get_secret(project_id,"db_username")
+db_url = get_secret(project_id, "jdbc")
+db_password = get_secret(project_id, "db_password")
 
 # Tables to extract
-tables = ["Sales.Customer", "Sales.SalesTerritory", "Person.Person", "Sales.SalesOrderHeader", "Sales.SalesOrderDetail"]
+tables = ["Sales.SalesOrderDetail", "Sales.SalesTerritory", "Sales.SalesOrderHeader"]
 
 # GCS bucket details
 gcs_bucket = "gs://airbnb-chicago/raw_data_adv/"
